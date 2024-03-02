@@ -11,7 +11,7 @@ char **tokizer(char *string)
 
 	if (string == NULL)
 		return (NULL);
-	buffer = strtok(string, "\n\t");
+	buffer = strtok(string, " \t\n");
 	if (buffer == NULL)
 	{
 		free(string), string = NULL;
@@ -20,7 +20,7 @@ char **tokizer(char *string)
 	while (buffer)
 	{
 		array = realloc(array, (i + 2) * sizeof(char *));
-		if (array == NULL)/*check realloc*/
+		if (array == NULL)
 		{
 			_printf("ERROR realloc()");
 			free(buffer), buffer = NULL;
@@ -32,7 +32,7 @@ char **tokizer(char *string)
 		array[i] = _strdup(buffer);
 		if (_strcmp("exit", array[i]) == 0)
 			exit(EXIT_FAILURE);
-		buffer = strtok(NULL, " \n\t");
+		buffer = strtok(NULL, " \t\n");
 		i++;
 	}
 	array[i] = NULL;
@@ -48,17 +48,17 @@ char **tokizer(char *string)
  */
 char *_read_buffer(void)
 {
-	char *line = NULL;
-	size_t size_line = 0;
+	char *buffer = NULL;
+	size_t size_buffer = 0;
 	int ret = 0;
 
 	if (isatty(0) == 1)/*if we are in terminal (1)*/
 		_printf("#cisfun$");
-	ret = getline(&line, &size_line, stdin);
+	ret = getline(&buffer, &size_buffer, stdin);
 	if (ret == -1)
 	{
-		free(line), line = NULL;
+		free(buffer), buffer = NULL;
 		return (NULL);
 	}
-	return (line);
+	return (buffer);
 }
